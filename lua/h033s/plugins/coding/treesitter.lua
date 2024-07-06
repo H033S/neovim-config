@@ -2,7 +2,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     version = false, -- last release is way too old and doesn't work on Windows
     build = ":TSUpdate",
-    event = {  "VeryLazy" },
+    event = { "VeryLazy" },
     lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
     init = function(plugin)
         require("lazy.core.loader").add_to_rtp(plugin)
@@ -11,7 +11,7 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
         { "<c-space>", desc = "Increment Selection" },
-        { "<bs>", desc = "Decrement Selection", mode = "x" },
+        { "<bs>",      desc = "Decrement Selection", mode = "x" },
     },
     opts_extend = { "ensure_installed" },
     opts = {
@@ -38,7 +38,6 @@ return {
             "xml",
             "yaml",
             "java",
-            "properties"
         },
         incremental_selection = {
             enable = true,

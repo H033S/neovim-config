@@ -2,16 +2,16 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
     },
     cmd = "Neotree",
     keys = {
         {
             "<leader>en",
             function()
-                require("neo-tree.command").execute({ toggle = true, dir = vim.fn.stdpath('config')})
+                require("neo-tree.command").execute({ toggle = true, dir = vim.fn.stdpath('config') })
             end,
             desc = "Explorer NeoTree (Root Dir)",
         },
@@ -82,7 +82,7 @@ return {
                 folder_closed = "",
                 folder_open = "",
                 folder_empty = "󰜌",
-                -- The next two settings are only a fallback, if you use nvim-web-devicons 
+                -- The next two settings are only a fallback, if you use nvim-web-devicons
                 -- and configure default icons there then these will never be used.
                 default = "*",
                 highlight = "NeoTreeFileIcon"
@@ -96,9 +96,9 @@ return {
                     -- Change type
                     added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
                     modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-                    deleted   = "✖",-- this can only be used in the git_status source
-                    renamed   = "󰁕",-- this can only be used in the git_status source
-              -- Status type
+                    deleted   = "✖", -- this can only be used in the git_status source
+                    renamed   = "󰁕", -- this can only be used in the git_status source
+                    -- Status type
                     untracked = "",
                     ignored   = "",
                     unstaged  = "󰄱",
@@ -113,7 +113,7 @@ return {
                     noremap = true,
                     nowait = true,
                 },
-            
+
                 mappings = {
                     ["l"] = "open",
                     ["h"] = "close_node",
@@ -133,14 +133,14 @@ return {
             },
             filesystem = {
                 always_show = { -- remains visible even if other settings would normally hide it
-                   ".gitignored",
-               },
-               never_show = { 
-                   ".DS_Store",
-                   --"thumbs.db"
-               },
-               hijack_netrw_behavior = "open_default",
-                
+                    ".gitignored",
+                },
+                never_show = {
+                    ".DS_Store",
+                    --"thumbs.db"
+                },
+                hijack_netrw_behavior = "open_default",
+
             },
         })
     end
