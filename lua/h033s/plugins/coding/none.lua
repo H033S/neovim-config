@@ -11,6 +11,8 @@ return {
             sources = {
                 null_ls.builtins.formatting.stylelua,
                 null_ls.builtins.formatting.prettier,
+
+                --Python
                 null_ls.builtins.formatting.black,
                 null_ls.builtins.formatting.isort,
 

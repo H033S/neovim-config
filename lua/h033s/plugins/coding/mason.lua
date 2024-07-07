@@ -31,29 +31,65 @@ return {
     },
     {
         'neovim/nvim-lspconfig',
-        dependencies = {
-            'mfussenegger/nvim-lint',
-        },
-        keys = {
-            { "K",          vim.lsp.buf.hover,                         mode = "n",          { desc = "Show documentation for what is under cursor" } },
-            { "<leader>ca", vim.lsp.buf.code_action,                   mode = { "n", "v" }, { desc = "See available code actions" } },
-            { "<leader>rn", vim.lsp.buf.rename,                        mode = "n",          { desc = "Smart Rename" } },
-            { "gd",         "<cmd>Telescope lsp_definitions<CR>",      mode = "n",          { desc = "Show definition" } },
-            { "gD",         vim.lsp.buf.declaration,                   mode = "n",          { description = "Show Declaration" } },
-            { "gr",         "<cmd>Telescope lsp_references<CR>",       mode = "n",          { desc = "Show References" } },
-            { "gi",         "<cmd>Telescope lsp_implementations<CR>",  mode = "n",          { desc = "Show Implementations" } },
-            { "gt",         "<cmd>Telescope lsp_type_definitions<CR>", mode = "n",          { desc = "Show Type Definition" } },
-            { "<leader>D",  "<cmd>Telescope diagnostics bufnr=0<CR>",  mode = "n",          { desc = "Show Diagnostics" } },
-            { "<leader>d",  vim.diagnostic.open_float,                 mode = "n",          { desc = "Show line diagnostics" } },
-            { "<leader>rs", ":LspRestart<CR>",                         mode = "n",          { desc = "Restart LSP" } },
-        },
         config = function()
             local lspconfig = require("lspconfig")
 
-            lspconfig.lua_ls.setup({})
-            lspconfig.tsserver.setup({})
-            lspconfig.pyright.setup({})
-            lspconfig.angularls.setup({})
+            local on_attach = function(client, bufnr)
+                local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+                local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+                buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+                local opts = { noremap = true, silent = true }
+                buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+                buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+                buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+                buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+                buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+                -- buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+                --     opts)
+                -- buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+                -- buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+                -- buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+                -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+                -- buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+            end
+
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+                vim.lsp.diagnostic.on_publish_diagnostics,
+                { virtual_text = false, signs = false }
+            )
+
+            lspconfig.lua_ls.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                    workspace = {
+                        library = {
+                            vim.fn.expand "$VIMRUNTIME/lua",
+                            vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
+                            vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+                        },
+                        maxPreload = 100000,
+                        preloadFileSize = 10000,
+                    },
+                }
+            })
+
+
+            local servers = { "tsserver", "pyright", 'html', 'cssls', 'angularls' }
+            for _, lsp in ipairs(servers) do
+                lspconfig[lsp].setup { on_attach = on_attach, capabilities = capabilities }
+            end
         end,
     },
     {

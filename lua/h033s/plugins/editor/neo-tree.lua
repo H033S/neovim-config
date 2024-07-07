@@ -140,7 +140,6 @@ return {
                     --"thumbs.db"
                 },
                 hijack_netrw_behavior = "open_default",
-
             },
         })
     end

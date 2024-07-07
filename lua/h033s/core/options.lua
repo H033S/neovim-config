@@ -7,7 +7,7 @@ vim.opt.ignorecase = true --ignore case when using a search pattern
 vim.opt.smartcase = true  --override 'ignorecase' when pattern has upper case characters
 
 -- Wrap
-wrap = true --long lines wrap
+vim.opt.wrap = false--true --long lines wrap
 
 -- Numbers
 vim.opt.number = true -- Show Line Numbers in BUFFER
