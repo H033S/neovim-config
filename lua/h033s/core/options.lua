@@ -39,4 +39,5 @@ vim.opt.smarttab = true   --a <Tab> in an indent inserts 'shiftwidth' spaces
 vim.opt.expandtab = true  --expand <Tab> to spaces in Insert mode
 vim.opt.autoindent = true --automatically set the indent of a new line
 
-vim.highlight.on_yank({ higroup = 'Visual', timeout = 1000 })
+vim.cmd[[au TextYankPost * silent! lua vim.highlight.on_yank()]]
+
