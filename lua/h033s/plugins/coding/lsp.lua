@@ -17,6 +17,9 @@ return {
 
         --Lsp Progress
         "j-hui/fidget.nvim",
+
+        --Tool Installer
+        "WhoIsSethDaniel/mason-tool-installer",
     },
     config = function()
         require('fidget').setup({})
@@ -28,12 +31,23 @@ return {
                 'cssls',
                 'tsserver',
                 'pyright',
+                'jdtls',
             },
             handlers = {
 
                 function(server_name)
-                    require('lspconfig')[server_name].setup{}
+                    if server_name ~= 'jdtls' then
+                        require('lspconfig')[server_name].setup{}
+                    end
+
                 end
+            }
+        })
+
+        require("mason-tool-installer").setup({
+            ensure_installed = {
+                'java-debug-adapter',
+                'java-test'
             }
         })
 
@@ -51,15 +65,16 @@ return {
                 end,
             },
             mapping = cmp.mapping.preset.insert({
-                ['C-p'] = cmp.mapping.select_prev_item(cmp_select),
-                ['C-n'] = cmp.mapping.select_next_item(cmp_select),
-                ['C-y'] = cmp.mapping.confirm({ select = true }),
+                ['<A-k>'] = cmp.mapping.select_prev_item(cmp_select),
+                ['<A-j>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<C-Space>'] = cmp.mapping.complete(),
+                ['<Tab>'] = cmp.mapping.confirm({ select = true }),
             }),
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' },
                 { name = 'buffer' },
+                { name = 'path'}
             })
         })
 

@@ -26,6 +26,7 @@ require('lazy').setup({
         { import = 'h033s.plugins.editor' },
         { import = 'h033s.plugins.ui' },
         { import = 'h033s.plugins.coding' },
+        { import = 'h033s.plugins.coding.lang'},
     },
     checker = {
         enabled = true
