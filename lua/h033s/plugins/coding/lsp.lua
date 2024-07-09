@@ -28,6 +28,7 @@ return {
             ensure_installed = {
                 'lua_ls',
                 'angularls',
+                'html',
                 'cssls',
                 'tsserver',
                 'pyright',
@@ -35,19 +36,25 @@ return {
             },
             handlers = {
 
+                -- Cannot setup JDTLS with normal setup
                 function(server_name)
                     if server_name ~= 'jdtls' then
                         require('lspconfig')[server_name].setup{}
                     end
+                end,
 
-                end
+                require('lspconfig')['angularls'].setup({
+                    filetypes = { 'typescript', 'html', 'typescriptreact', 'typescript.tsx', 'angular.html' }
+                })
             }
         })
 
         require("mason-tool-installer").setup({
             ensure_installed = {
                 'java-debug-adapter',
-                'java-test'
+                'java-test',
+                'prettier',
+                'stylua'
             }
         })
 

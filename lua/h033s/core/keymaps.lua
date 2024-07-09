@@ -29,9 +29,7 @@ vim.keymap.set('v', 'K', ":m '>-2<CR>gv=gv", { desc = 'Move Line one line to top
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
-    group = H033SGroup,
     callback = function(ev)
-
         local opts = {buffer = ev.bufnr, remap = false}
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
