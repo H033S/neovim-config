@@ -18,7 +18,7 @@ vim.opt.number = true -- Show Line Numbers in BUFFER
 vim.opt.cursorline = true --highlight the screen line of the cursor
 
 --Spelling
-vim.opt.spell = true --highlight spelling mistakes
+--vim.opt.spell = true --highlight spelling mistakes
 
 -- Status Line
 vim.opt.laststatus = 2 --0, 1, 2 or 3; when to use a status line for the last window
