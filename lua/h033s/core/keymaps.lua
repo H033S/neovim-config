@@ -24,6 +24,7 @@ vim.keymap.set('n', '<leader>wh', '<cmd>tabp<CR>', { desc = 'Go to previous tab'
 vim.keymap.set('n', '<S-CR>', 'A<CR><ESC>', { desc = 'Create a new Line' })
 vim.keymap.set('n', '<C-CR>', 'i<CR><ESC>', { desc = 'Create a new Line since cursor position' })
 
+
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move Line one line to bottom' })
 vim.keymap.set('v', 'K', ":m '>-2<CR>gv=gv", { desc = 'Move Line one line to top' })
 

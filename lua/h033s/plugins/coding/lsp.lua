@@ -22,6 +22,10 @@ return {
         "WhoIsSethDaniel/mason-tool-installer",
     },
     config = function()
+
+        local lspconfig = require('lspconfig')
+        local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
         require('fidget').setup({})
         require('mason').setup({})
         require('mason-lspconfig').setup({
@@ -39,11 +43,14 @@ return {
                 -- Cannot setup JDTLS with normal setup
                 function(server_name)
                     if server_name ~= 'jdtls' then
-                        require('lspconfig')[server_name].setup{}
+                        lspconfig[server_name].setup{
+                            capabilities = capabilities
+                        }
                     end
                 end,
 
                 require('lspconfig')['angularls'].setup({
+                    capabilities = capabilities,
                     filetypes = { 'typescript', 'html', 'typescriptreact', 'typescript.tsx', 'angular.html' }
                 })
             }
@@ -82,7 +89,12 @@ return {
                 { name = 'luasnip' },
                 { name = 'buffer' },
                 { name = 'path'}
-            })
+            }),
+            window = {
+                -- Add borders to completions popups
+                completion = cmp.config.window.bordered(),
+                documentation = cmp.config.window.bordered(),
+            },
         })
 
         vim.diagnostic.config({
