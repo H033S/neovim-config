@@ -28,6 +28,9 @@ vim.keymap.set('n', '<C-CR>', 'i<CR><ESC>', { desc = 'Create a new Line since cu
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move Line one line to bottom' })
 vim.keymap.set('v', 'K', ":m '>-2<CR>gv=gv", { desc = 'Move Line one line to top' })
 
+vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({"n", "v"}, "<leader>Y", [["+Y]])
 
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)

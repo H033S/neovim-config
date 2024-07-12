@@ -33,7 +33,7 @@ return {
                 'lua_ls',
                 'angularls',
                 'html',
-                'cssls',
+                'tailwindcss',
                 'tsserver',
                 'pyright',
                 'jdtls',
