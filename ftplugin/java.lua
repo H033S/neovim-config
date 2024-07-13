@@ -80,7 +80,7 @@ local config = {
             },
             signatureHelp = { enabled = true },
             format = {
-                enabled = true,
+                enabled = false,
                 -- Formatting works by default, but you can refer to a specific file/URL if you choose
                 -- settings = {
                 --   url = "https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml",
