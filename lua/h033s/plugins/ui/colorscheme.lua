@@ -7,14 +7,7 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-<<<<<<< HEAD
         --vim.g.sonokai_enable_italic = true
-        vim.cmd.colorscheme('nordic')
-        vim.inspect(vim.g.lightline)
-=======
->>>>>>> e44c4e6 (Changed colorscheme to Nordic)
-
-        local colorForSelection = "#F6C987"
         require('nordic').setup({
             transparent_bg = true,
             cursorline = {
