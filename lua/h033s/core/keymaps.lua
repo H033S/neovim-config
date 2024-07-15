@@ -34,6 +34,7 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', {desc = "Scroll Up Keeping Cursor in the
 vim.keymap.set({'v', 'n'}, 'Y', 'y$')
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set({"n", "v"}, "<leader>Y", [["+Y]])
+vim.keymap.set({"n", "v"}, "<leader>p", [["+p]])
 -- Teminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {desc = "Close Terminal"})
 vim.keymap.set("n", "<leader>t", "<cmd>bel term<CR>")
