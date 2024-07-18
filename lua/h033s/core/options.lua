@@ -11,7 +11,7 @@ vim.opt.wrap = false--true --long lines wrap
 
 -- Numbers
 vim.opt.number = true -- Show Line Numbers in BUFFER
--- vim.opt.relativenumber = true -- Show Relative Line Numbers in BUFFER
+vim.opt.relativenumber = true -- Show Relative Line Numbers in BUFFER
 
 -- Cursor Highlight
 --vim.opt.cursorcolumn = true	--highlight the screen column of the cursor
@@ -38,6 +38,8 @@ vim.opt.shiftwidth = 4    --number of spaces used for each step of (auto)indent
 vim.opt.smarttab = true   --a <Tab> in an indent inserts 'shiftwidth' spaces
 vim.opt.expandtab = true  --expand <Tab> to spaces in Insert mode
 vim.opt.autoindent = true --automatically set the indent of a new line
+
+vim.opt.splitright = true
 
 vim.cmd[[au TextYankPost * silent! lua vim.highlight.on_yank()]]
 
