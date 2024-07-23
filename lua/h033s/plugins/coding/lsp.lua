@@ -20,6 +20,9 @@ return {
 
         --Tool Installer
         "WhoIsSethDaniel/mason-tool-installer",
+
+        --Schemas for Json Autocomplete
+        "b0o/schemastore.nvim",
     },
     config = function()
 
@@ -27,16 +30,21 @@ return {
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
         require('fidget').setup({})
-        require('mason').setup({})
+        require('mason').setup({
+            ui = {
+                border = "rounded",
+            }
+        })
         require('mason-lspconfig').setup({
             ensure_installed = {
                 'lua_ls',
                 'angularls',
                 'html',
-                'tailwindcss',
+                'cssls',
                 'tsserver',
                 'pyright',
                 'jdtls',
+                'jsonls',
             },
             handlers = {
 
@@ -49,9 +57,20 @@ return {
                     end
                 end,
 
-                require('lspconfig')['angularls'].setup({
+                lspconfig['angularls'].setup({
                     capabilities = capabilities,
                     filetypes = { 'typescript', 'html', 'typescriptreact', 'typescript.tsx', 'angular.html' }
+                }),
+
+                lspconfig['jsonls'].setup({
+                    capabilities = capabilities,
+                    filetypes = { "json", "jsonc" },
+                    settings ={
+                        json = {
+                            schemas = require('schemastore').json.schemas(),
+                            validate = { enable = true },
+                        }
+                    }
                 })
             }
         })
@@ -60,13 +79,19 @@ return {
             ensure_installed = {
                 'java-debug-adapter',
                 'java-test',
+
+                --Angular
                 'prettier',
-                'stylua'
+                --Lua
+                'stylua',
+                -- Python
+                'isort', 'black',
             }
         })
 
         local cmp = require('cmp')
         local cmp_select = {behavior = cmp.SelectBehavior.Select}
+        local icons = require("h033s.utils.icons")
 
         cmp.setup({
             completion = {
@@ -79,8 +104,8 @@ return {
                 end,
             },
             mapping = cmp.mapping.preset.insert({
-                ['<A-k>'] = cmp.mapping.select_prev_item(cmp_select),
-                ['<A-j>'] = cmp.mapping.select_next_item(cmp_select),
+                ['<M-k>'] = cmp.mapping.select_prev_item(cmp_select),
+                ['<M-j>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<C-Space>'] = cmp.mapping.complete(),
                 ['<Tab>'] = cmp.mapping.confirm({ select = true }),
             }),
@@ -95,10 +120,69 @@ return {
                 completion = cmp.config.window.bordered(),
                 documentation = cmp.config.window.bordered(),
             },
+            experimental = {
+                ghost_text = false
+            },
+            formatting = {
+                fields = { "kind", "abbr", "menu" },
+                format = function(entry, vim_item)
+                    vim_item.kind = icons.kind[vim_item.kind]
+                    vim_item.menu = ({
+                        nvim_lsp = "",
+                        nvim_lua = "",
+                        luasnip = "",
+                        buffer = "",
+                        path = "",
+                        emoji = "",
+                    })[entry.source.name]
+                    if entry.source.name == "emoji" then
+                        vim_item.kind = icons.misc.Smiley
+                        vim_item.kind_hl_group = "CmpItemKindEmoji"
+                    end
+
+                    if entry.source.name == "cmp_tabnine" then
+                        vim_item.kind = icons.misc.Robot
+                        vim_item.kind_hl_group = "CmpItemKindTabnine"
+                    end
+
+                    return vim_item
+                end,
+            },
         })
 
+
+        local signValues = {
+            { name = "DiagnosticSignError", text = icons.diagnostics.Error },
+            { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
+            { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
+            { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
+        }
+
         vim.diagnostic.config({
-            virtual_text = true
+            signs = {
+                active = true,
+                values = signValues,
+            },
+            virtual_text = false,
+            update_in_insert = false,
+            underline = true,
+            severity_sort = true,
+            float = {
+                focusable = true,
+                style = "minimal",
+                border = "rounded",
+            },
         })
+        -- Setting Signs
+        for _, sign in ipairs(signValues) do
+            vim.fn.sign_define(
+                sign.name,
+                {
+                    texthl = sign.name,
+                    text = sign.text,
+                    numhl = sign.name
+                }
+            )
+        end
     end
 }

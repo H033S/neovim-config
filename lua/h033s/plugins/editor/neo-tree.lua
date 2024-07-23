@@ -11,7 +11,7 @@ return {
         {
             "<leader>en",
             function()
-                require("neo-tree.command").execute({ toggle = true, dir = vim.fn.stdpath('config') })
+                require("neo-tree.command").execute({ toggle = true, dir = vim.fn.stdpath("config") })
             end,
             desc = "Explorer NeoTree (Root Dir)",
         },
@@ -58,52 +58,56 @@ return {
         vim.cmd([[Neotree close]])
     end,
     config = function()
+        local icons = require("h033s.utils.icons")
+
         require("neo-tree").setup({
             close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
             popup_border_style = "rounded",
             enable_git_status = true,
             enable_diagnostics = true,
             sort_case_insensitive = false,
-            indent = {
-                indent_size = 2,
-                padding = 1, -- extra padding on left hand side
-                -- indent guides
-                with_markers = true,
-                indent_marker = "│",
-                last_indent_marker = "└",
-                highlight = "NeoTreeIndentMarker",
-                -- expander config, needed for nesting files
-                with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
-                expander_collapsed = "",
-                expander_expanded = "",
-                expander_highlight = "NeoTreeExpander",
-            },
-            icon = {
-                folder_closed = "",
-                folder_open = "",
-                folder_empty = "󰜌",
-                -- The next two settings are only a fallback, if you use nvim-web-devicons
-                -- and configure default icons there then these will never be used.
-                default = "*",
-                highlight = "NeoTreeFileIcon"
-            },
-            modified = {
-                symbol = "[+]",
-                highlight = "NeoTreeModified",
-            },
-            git_status = {
-                symbols = {
-                    -- Change type
-                    added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-                    modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-                    deleted   = "✖", -- this can only be used in the git_status source
-                    renamed   = "󰁕", -- this can only be used in the git_status source
-                    -- Status type
-                    untracked = "",
-                    ignored   = "",
-                    unstaged  = "󰄱",
-                    staged    = "",
-                    conflict  = "",
+            default_component_configs = {
+                indent = {
+                    indent_size = 2,
+                    padding = 1, -- extra padding on left hand side
+                    -- indent guides
+                    with_markers = true,
+                    indent_marker = "│",
+                    last_indent_marker = "└",
+                    highlight = "NeoTreeIndentMarker",
+                    -- expander config, needed for nesting files
+                    with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+                    expander_collapsed = icons.ui.ChevronRight,
+                    expander_expanded = icons.ui.ChevronShortDown,
+                    expander_highlight = "NeoTreeExpander",
+                },
+                icon = {
+                    folder_closed = icons.ui.Folder,
+                    folder_open = icons.ui.FolderOpen,
+                    folder_empty = icons.ui.EmptyFolder,
+                    -- The next two settings are only a fallback, if you use nvim-web-devicons
+                    -- and configure default icons there then these will never be used.
+                    default = "*",
+                    highlight = "NeoTreeFileIcon",
+                },
+                modified = {
+                    symbol = "M",
+                    highlight = "NeoTreeModified",
+                },
+                git_status = {
+                    symbols = {
+                        -- Change type
+                        added = icons.git.LineAdded,
+                        modified = icons.git.LineModified,
+                        deleted = icons.git.FileDeleted,
+                        renamed = icons.git.FileRenamed,
+                        -- Status type
+                        untracked = icons.git.FileUntracked,
+                        ignored = icons.git.FileIgnored,
+                        unstaged = icons.git.FileUnstaged,
+                        staged = icons.git.FileStaged,
+                        conflict = icons.git.Conflic,
+                    },
                 },
             },
             window = {
@@ -142,5 +146,5 @@ return {
                 hijack_netrw_behavior = "open_default",
             },
         })
-    end
+    end,
 }

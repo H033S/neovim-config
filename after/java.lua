@@ -1,7 +1,6 @@
-vim.keymap('n','<A-o>', "<Cmd>lua require'jdtls'.organize_imports()<CR>", {desc = "Organize Imports"})
-vim.keymap({'n', 'v'},'crv', "<Cmd>lua require('jdtls').extract_variable()<CR>", {desc = "Extract variable"})
-vim.keymap({"n", "v"},"crc","<Cmd>lua require('jdtls').extract_constant()<CR>", {desc = "Extract Constant"})
-vim.keymap({"n","v"},"crm","<Esc><Cmd>lua require('jdtls').extract_method()<CR>", {desc = "Extract Method"})
-vim.keymap("n", "<leader>rtc", "<Cmd>lua require'jdtls'.test_class()<CR>", {desc = "Test Class"})
-vim.keymap("n", "<leader>rt", "<Cmd>lua require'jdtls'.test_nearest_method()<CR>", {desc = "Test Nearest Method"})
-
+vim.keymap("n", "<leader>rtc", function() require('jdtls').test_class() end, {desc = "Test Class"})
+vim.keymap("n", "<leader>rt",  function() require('jdtls').test_nearest_method() end, {desc = "Test Nearest Method"})
+vim.keymap({'n', 'v'},'<leader>oi', function() require('jdtls').organize_imports() end, {desc = "Organize Imports"})
+vim.keymap({"n", "v"},"<leader>ec", function() require('jdtls').extract_constant() end, {desc = "Extract Constant"})
+vim.keymap({'n', 'v'},'<leader>ev', function() require('jdtls').extract_variable() end, {desc = "Extract variable"})
+vim.keymap({"n", "v"},"<leader>em", function() require('jdtls').extract_method()   end, {desc = "Extract Method"})
